@@ -21,38 +21,6 @@
 
 ;; (fact-iter 6) 
 
-;; Exercise 1.9
-
-;; (define (inc x) (+ 1 x))
-;; (define (dec x) (- 1 x))
-
-;; (define (p a b)
-;;   (if (= a 0)
-;;       b
-;;       (inc (p (dec a) b))))
-
-;; (define (p a b)
-;;   (if (= a 0)
-;;       b
-;;       (p (dec a) (inc b))))
-
-;; (+ 4 5)
-
-;; Exercise 1.10
-;; (define (A x y)
-;;   (cond ((= y 0) 0)
-;;         ((= x 0) (* 2 y))
-;;         ((= y 1) 2)
-;;         (else (A (- x 1)
-;;                  (A x (- y 1))))))
-
-;; (A 1 10)
-;; (A 2 4)
-;; (A 3 3)
-
-;; (define (h n) (A 2 n))
-;; (h 3)
-
 ;; 1.2.2 Tree Recursion
 
 ;; (define (fib n)
@@ -94,54 +62,6 @@
 ;;         ((= kinds-of-coins 5) 50)))
 
 ;; (count-change )
-
-;; Exercise 1.11
-
-;; (define (f n)
-;;   (if (< n 3)
-;;       n
-;;       (+ (f (- n 1))
-;;          (* 2 (f (- n 2)))
-;;          (* 3 (f (- n 3))))))
-
-;; (define (f n)
-  
-;;   (define (f-iter counter a b c)
-;;     (cond ((< n 3) n)
-;;           ((not (< counter n)) a)
-;;           (else
-;;            (f-iter (+ counter 1)
-;;                    (+ a (* b 2) (* c 3))
-;;                    a
-;;                    b))))
-  
-;;   (f-iter 2 2 1 0))
-
-         
-;; Exercise 1.12
-
-;; (define (pascal row col)
-;;   (cond ((or (= col 1)
-;;              (= col row))
-;;          1)
-;;         (else (+ (pascal (- row 1) (- col 1))
-;;                  (pascal (- row 1) col)))))
-
-;; (define (pascal row col)
-  
-;;   (define (pascal-iter counter row col)
-;;     (cond ((or
-;;             (= col row)
-;;             (= col 1))
-;;            1)
-;;           ()
-
-;;           )
-
-;;   (pascal-iter 1 row col))
-
-
-;; Exerise 1.13
 
 ;; 1.2.3 Orders of Growth
 
@@ -196,63 +116,6 @@
 ;;   (iter b 1 n))
 
 ;; (super-fast-expo 3 3)
-
-;; Exercise 1.17
-
-;; (define (* a b)
-;;   (if (= b 0)
-;;       0
-;;       (+ a (* a  (- b 1)))))
-
-;; (define (double x)
-;;   (+ x x))
-
-;; recucursive process (logrithmatic number of steps)
-;; (define (fast-mul a b)
-;;   (cond ((= a 0) 0)
-;;         ((= a 1) b)
-;;         ((is-even a) (fast-mul (/ a 2) (double b)))
-;;         (else (+ b
-;;                  (fast-mul (- a 1) b)))))
-
-;; iterative process
-
-;; (define (iter-mul a b)
-
-;;   (define (is-even n)
-;;     (= (remainder n 2) 0))
-
-;;   (define (double n)
-;;     (+ n n))
-
-;;   (define (iter counter sum mut)
-;;     (cond ((= a 0) 0)
-;;           ((= counter 0) mut)
-;;           ((is-even counter)
-;;            (iter (/ counter 2) (double sum) mut))
-;;           (else (iter (- counter 1) sum (+ sum b)))))
-  
-;;   (iter a b 0))
-
-;; (iter-mul 2 2)
-
-;; Exercise 1.19
-
-;; Searching for divisors
-
-;; (define (smallest-divisor n)
-  
-;;   (define (find-divisor n test-divisor)
-;;    (cond ((> (square test-divisor) n) n)
-;;          ((= (remainder n test-divisor) 0) test-divisor)
-;;          (else (find-divisor n (+ 1 test-divisor)))))
-  
-;;   (define (square x) (* x x))
-
-;;   (find-divisor n 2))
-
-;; (define (prime? n)
-;;   (= (smallest-divisor n) n))
 
 ;; The Fermat test
 

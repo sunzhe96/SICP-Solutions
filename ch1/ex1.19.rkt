@@ -1,19 +1,19 @@
 #lang sicp
 
+;; Exercise 1.19
+
 ;; Searching for divisors
 
-
-
 (define (smallest-divisor n)
-
-  (define (square x) (* x x))
-
-  (define (divide? a b)
-    (= (remainder a b) 0))
   
   (define (find-divisor n test-divisor)
    (cond ((> (square test-divisor) n) n)
-         ((devide? n test-divisor) test-divisor)
+         ((= (remainder n test-divisor) 0) test-divisor)
          (else (find-divisor n (+ 1 test-divisor)))))
   
+  (define (square x) (* x x))
+
   (find-divisor n 2))
+
+(define (prime? n)
+  (= (smallest-divisor n) n))

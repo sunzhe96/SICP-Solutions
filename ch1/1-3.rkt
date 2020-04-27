@@ -1,71 +1,86 @@
 #lang sicp
 
-;; 1.3 Formulating Abstractions with Higher Order Procedures
+;; 1.3 Formulating Abstractions with Higher-Order Procedures
 
-;; higher order summation(sigma notation in math)
-
-(define (sum a b next term)
+;; higher-order summation
+(define (sum term a next b)
   (if (> a b)
       0
       (+ (term a)
-         (sum (next a) b next term))))
+         (sum term (next a) next b))))
 
-(define (inc n)
-  (+ n 1))
+;; define cube sum
+(define (inc x) (+ x 1))
 
-;; (define (cube n) (* n n n))
+(define (cube x) (* x x x))
 
-;; (define (sum-cube a b)
-;;   (sum a b inc cube))
+(define (cube-sum a b)
+  (sum cube a inc b))
 
-;; (define (identity x) x)
+(cube-sum 1 10)
 
-;; (define (sum-integers a b)
-;;   (sum a b inc identity))
+;; sum integers
+(define (identity x) x)
 
-;; (define (pi-sum a b)
-  
-;;   (define (pi-term x)
-;;     (/ 1.0 (* x (+ x 2))))
+(define (sum-intergers a b)
+  (sum identity a inc b))
 
-;;   (define (pi-next x)
-;;     (+ x 4))
-  
-;;   (sum a b pi-next pi-term))
+(sum-intergers 1 100)
 
-;; (* 8 (pi-sum 1 1000))
+;; pi sum
 
-;; (define (integral a b dx f)
-  
-;;   (define (add-dx x) (+ x dx))
-  
-;;   (* (sum (+ a (/ dx 2.0)) b add-dx f) dx))
+(define (pi-term x) (/ 1 (* x (+ x 2))))
+(define (pi-next x) (+ x 4))
 
-;; (integral 0 1 0.001 cube)
+(define (pi-sum a b)
+  (sum pi-term a pi-next b))
+
+;; testing (close to pi / 8)
+(- (pi-sum 1.0 1000.0) 0.3926991)
+
+(define (integrals f a b dx)
+
+  (define (add-dx x) (+ x dx))
+
+  (* (sum f (+ a (/ dx 2.0)) add-dx b)
+     dx))
+
+(integrals cube 0 1 0.01)
+(integrals cube 0 1 0.001)
+
+;; 1.3.2 Constructing Procedures Using Lambda
+
+((lambda (x) (* x 5)) 10)
+
+;; Using let to create local variables
+(define a 5)
+
+(+ (let ((a 3))
+     (+ a (* a 10)))
+   a)
 
 
-(define (simpson-integral f a b n)
+(define x 2)
 
-  ;; define h
-  (define (h)
-    (/ (- b a) n))
+(let ((x 3)
+      (y (+ x 2)))
+  (* x y))
+;; 1.3.3 Procedures as General Methods
 
-  ;; define y_k
-  (define (y k)
-    (f (+ a (* k h))))
+;; finding roots of equations by the half-interval method
 
-  (define (inc_y (y k))
-    (y (+ k 1)))
+;; (define (search f neg-point pos-point)
+;;   (let ((midpoint
+;;          (average neg-point pos-point)))
+;;     (if (close-enough? neg-point pos-point)
+;;         midpoint
+;;         (let ((test-value (f midpoint)))
+;;           (cond
+;;             ((postive? test-value)
+;;              (search f neg-point midpoint))
+;;             ((negtive? test-value)
+;;              (search f midpoint pos-point))
+;;             (else midpoint))))))
 
-  ;; return the value of integral
-  ;; (define (sum a b next term)
-  ;; (if (> a b)
-  ;;     0
-  ;;     (+ (term a)
-  ;;        (sum (next a) b next term))))
-  
-  (* (/ h 3) (sum (y 0) (y k) inc y_k)))
 
-(define (cube) (* x x x))
 
-(simpson-integral cube 0 0.1 100)

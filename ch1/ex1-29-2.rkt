@@ -2,21 +2,14 @@
 
 ;; Exercise 1.29
 
-;; this solution modified higher-order procedure
-;; not recommend here, because we don't want to modify the procedure itself
-;; check ex1.29-2.rkt for modifying "term" version
+;; modify "term" version
 
 ;; higher-order summation
 (define (sum term a next b)
-  ;; check odd/even
-  (define (is-even? x) (= (remainder x 2) 0))
-  
-  (cond ((> a b) 0)
-        ((is-even? a)
-         (+ (* 4 (term a))
-            (sum term (next a) next b)))
-        (else (+ (* 2 (term a))
-                 (sum term (next a) next b)))))
+  (if (> a b)
+      0
+      (+ (term a)
+         (sum term (next a) next b))))
 
 ;; cube
 (define (cube x) (* x x x))
@@ -30,12 +23,23 @@
   ;; define h
   (define h (/ (- b a) n))
 
+  ;; check odd/even
+  (define (is-even? x)
+    (= (remainder x 2) 0))
+
   ;; define y
   (define (y k) (f (+ a (* k h))))
   
+  ;; define simpson-term
+  (define (simpson-term k)
+     (if (is-even? k)
+        (* 4 (y k))
+        (* 2 (y k))))
+  
+  ;; retrun value
   (* (/ h 3)
      (+ (y 0)
-        (sum y 1 inc n))))
+        (sum simpson-term 1 inc n))))
 
 ;; testing procedure
 (simpson-integrals cube 0 1.0 100.0)
