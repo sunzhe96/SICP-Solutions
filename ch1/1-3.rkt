@@ -65,22 +65,86 @@
 (let ((x 3)
       (y (+ x 2)))
   (* x y))
+
 ;; 1.3.3 Procedures as General Methods
 
-;; finding roots of equations by the half-interval method
+;; compute fixed point of a function
+(define tolerance 0.00001)
 
-;; (define (search f neg-point pos-point)
-;;   (let ((midpoint
-;;          (average neg-point pos-point)))
-;;     (if (close-enough? neg-point pos-point)
-;;         midpoint
-;;         (let ((test-value (f midpoint)))
-;;           (cond
-;;             ((postive? test-value)
-;;              (search f neg-point midpoint))
-;;             ((negtive? test-value)
-;;              (search f midpoint pos-point))
-;;             (else midpoint))))))
+(define (fixed-point f first-guess)
+  
+  (define (close-enough? v1 v2)
+    (< (abs(- v1 v2))
+       tolerance))
+  
+  (define (try guess)
+    (let ((next (f guess)))
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  
+  (try first-guess))
+
+;; 1.3.4 Procedures as Returned Values
+
+(define (average x y) (/ (+ x y) 2))
+
+(define (average-damp f)
+  (lambda (x)
+    (average x (f x))))
+
+(define (square x) (* x x))
+
+((average-damp square) 10)
+
+(define (sqrt x)
+  (fixed-point
+   (average-damp
+    (lambda (y) (/ x y)))
+   1.0))
+
+(sqrt 4)
+
+(define (cube-root x)
+  (fixed-point
+   (average-damp
+    (lambda (y) (/ x (square y))))
+   1.0))
+
+(cube-root 27)
+
+;; Newton's method
 
 
+(define (deriv g)
+  (lambda (x)
+    (/ (- (g (+ x dx)) (g x))
+       dx)))
+
+(define dx 0.00001)
+
+((deriv cube) 5)
+
+(define (newton-transform g)
+  (lambda (x)
+    (- x (/ (g x)
+            ((deriv g) x)))))
+
+(define (newtons-method g guess)
+  (fixed-point (newton-transform g)
+               guess))
+
+(define (sqrt-newton x)
+  (newtons-method
+   (lambda (y)
+     (- (square y) x))
+   1.0))
+
+(sqrt-newton 4)
+
+;; Abstractions and first-class Procedures
+
+(define (fixed-point-of-transform
+         g transform guess)
+  (fixed-point (transform g) guess))
 

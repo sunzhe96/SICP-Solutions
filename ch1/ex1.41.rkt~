@@ -1,0 +1,11 @@
+#lang sicp
+
+;; Exercise 1.41
+
+(define (doubles g)
+  (lambda (x)
+    (g (g x))))
+
+(define (inc x) (+ x 1))
+
+((doubles g) 1)
