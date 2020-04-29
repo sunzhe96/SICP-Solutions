@@ -1,0 +1,14 @@
+#lang sicp
+
+;; Exercise 2.5
+
+;; order
+(define (make-order-pair a b) (cons a b))
+(define (selec-first order-pair) (car order-pair))
+(define (selec-second order-pair) (cdr order-pair))
+
+
+;; integer
+(define (make-int-pair x y) (cons x y))
+(define (select-first-int integer) (car integer))
+(define (select-second-int integer) (cdr integer))

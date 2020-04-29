@@ -1,0 +1,77 @@
+#lang sicp
+
+;; 2.1.1 Example: Arithmetic Operations for Rational Numbers
+
+;; computing greatest common factor
+(define (gcd v1 v2)
+  (if (= v2 0)
+      v1
+      (gcd v2 (remainder v1 v2))))
+
+;; constructor
+(define (make-rat n d)
+  (let ((factor (gcd n d)))
+    (cons (/ n factor) (/ d factor))))
+
+;; selector
+(define (numer x) (car x))
+(define (denom x) (cdr x))
+
+;; print rat number
+(define (print-rat x)
+  (newline)
+  (display (numer x))
+  ;; if denom is 1 then don't print it
+  (cond ((= (denom x) 1) (display ""))
+        (else
+         (display "/")
+         (display (denom x)))))
+
+;; computation rules for rat numbers
+(define (add-rat x y)
+  (make-rat (+ (* (numer x) (denom y))
+               (* (numer y) (denom x)))
+            (* (denom x) (denom y))))
+
+(define (sub-rat x y)
+  (make-rat (- (* (numer x) (denom y))
+               (* (numer y) (denom x)))
+            (* (denom x) (denom y))))
+
+(define (mul-rat x y)
+  (make-rat (* (numer x) (numer y))
+            (* (denom x) (denom y))))
+
+(define (div-rat x y)
+  (make-rat (* (numer x) (denom y))
+            (* (denom x) (numer y))))
+
+(define (eqaul-rat? x y)
+  (= (* (numer x) (denom y))
+     (* (denom x) (numer y))))
+
+;; testing
+(print-rat (make-rat 10 10))
+(print-rat (add-rat (make-rat 1 2) (make-rat 3 4)))
+
+;; 2.1.3 What is meant by Data?
+
+;; 1.constructor 2.selector 3.specified condtions
+
+;; (define (cons x y)
+;;   (define (dispatch m)
+;;     (cond ((= m 0) x)
+;;           ((= m 1) y)
+;;           (else
+;;            (error "Argument not 0 or: CONS"m))))
+;;   dispatch)
+
+;; (define (car z) (z 0))
+;; (define (cdr z) (z 1))
+
+;; (define a (cons 1 2))
+
+;; (car a)
+;; (cdr a)
+
+

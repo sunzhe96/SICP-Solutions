@@ -1,0 +1,72 @@
+#lang sicp
+
+;; 2.2 Hierarchical Data and the Closure Property
+
+;; sequence
+
+;; list (nested cons)
+(cons 1
+      (cons 2
+            (cons 3
+                  (cons 4 nil))))
+
+(list 1 2 3 4)
+
+(define one-through-four (list 1 2 3 4))
+one-through-four
+(car one-through-four)
+(cdr one-through-four)
+(car (cdr one-through-four))
+
+(cons 10 one-through-four)
+(car (cons 5 one-through-four))
+
+;; List Operations
+(define (list-ref items n)
+  (if (= n 0)
+      (car items)
+      (list-ref (cdr items)
+                (- n 1))))
+
+(define squares (list 1 4 9 16 25))
+
+(list-ref squares 3)
+
+(define (length items)
+  (if (null? items)
+      0
+      (+ 1 (length (cdr items)))))
+
+(define odds (list 1 3 5 7))
+(length odds)
+
+(define (append list1 list2)
+  (if (null? list1)
+      list2
+      (cons (car list1) 
+            (append (cdr list1) 
+                    list2))))
+
+(length (append odds squares))
+(cons 1 (list 2 3))
+
+;; Mapping over lists
+
+(define (scale-list items factor)
+  (if (null? items)
+      nil
+      (cons (* (car items) factor)
+            (scale-list (cdr items)
+                        factor))))
+
+(scale-list (list 1 2 3 4 5) 10)
+
+
+(define (map proc items)
+  (if (null? items)
+      nil
+      (cons (proc (car items))
+            (map proc (cdr items)))))
+
+(map abs (list -10 2.5 011.6 17))
+(map (lambda (x) (* x x)) (list 1 2 3 4))

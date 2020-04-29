@@ -1,0 +1,30 @@
+#lang sicp
+
+;; Exercise 2.1
+
+;; computing greatest common factor
+(define (gcd v1 v2)
+  (if (= v2 0)
+      v1
+      (gcd v2 (remainder v1 v2))))
+
+(gcd -2 4)
+
+;; constructor
+(define (make-rat n d)
+  (let ((factor (gcd n d)))
+    (cons (/ n factor) (/ d factor))))
+
+;; selector
+(define (numer x) (car x))
+(define (denom x) (cdr x))
+
+;; print rat number
+(define (print-rat x)
+  (newline)
+  (display (numer x))
+  ;; if denom is 1 then don't print it
+  (cond ((= (denom x) 1) (display ""))
+        (else
+         (display "/")
+         (display (denom x)))))

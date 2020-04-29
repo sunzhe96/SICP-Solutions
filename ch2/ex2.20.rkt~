@@ -1,0 +1,12 @@
+#lang sicp
+
+;; Exercise 2.20
+
+(define (even? x) (= (remainder x 2) 0))
+
+(define (same-parity x . y)
+  (if (= x 0)
+      0
+      y))
+
+(same-parity 0 1 2 3 4))
