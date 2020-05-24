@@ -1,8 +1,0 @@
-#lang sicp
-
-;; 2.2 Hierarchical Data and the Closure Property
-
-(cons 1
-      (cons 2
-            (cons 3
-                  (cons 4 nil))))
