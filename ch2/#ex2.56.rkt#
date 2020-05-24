@@ -1,0 +1,5 @@
+#lang sicp
+
+;; Exercise 2.56
+
+(add 1 1)

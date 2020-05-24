@@ -1,0 +1,11 @@
+#lang sicp
+
+;; Exercise 3.6
+
+(define (rand x)
+  (let ((x random-init))
+    (cond ((eq? x 'reset) (lambda (new-init) (set! x new-init)))
+          ((eq? x 'generate)
+           (lambda () (begin
+                        (set! x (rand-update x)) x))))))
+

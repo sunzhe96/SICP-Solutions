@@ -1,0 +1,25 @@
+#lang sicp
+
+;; Exercise 2.35
+
+;; accumulate
+(define (accumulate op initial sequence)
+  (if (null? sequence)
+      initial
+      (op (car sequence)
+          (accumulate op 
+                      initial 
+                      (cdr sequence)))))
+
+;; (define (count-leaves t)
+;;   (accumulate (map  t)))
+
+(define a (list 1 2 (list 3 4 (list 4 9))))
+
+(define (fringe tree)
+  (cond ((null? tree) (list nil))
+        ((not (pair? (car tree))) (cons (car tree) (fringe (cdr tree))))
+        (else (cons (fringe (car tree)) (fringe (cdr tree))))))
+
+(fringe a)
+

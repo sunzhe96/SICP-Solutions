@@ -2,27 +2,33 @@
 
 ;; Exercise 2.5
 
-;; order
-(define (make-order-pair a b) (cons a b))
-(define (select-first order-pair) (car order-pair))
-(define (select-second order-pair) (cdr order-pair))
-
-
-;; compute integer product with corresponding order
-
 ;; expoentiation
 (define (exp base times)
   (define (iter product n)
-    (if (= n 1)
+    (if (= n 0)
         product
-        (iter (* base product) (- n 1))))
-  (iter base times))
+       (iter (* base product) (- n 1))))
+  
+    (iter 1 times))
 
-(define (pair-product order-pair)
-  (let ((a (select-first order-pair))
-        (b (select-second order-pair)))
-    (* (exp 2 a) (exp 3 b))))
 
-;; testing
-(pair-product (make-order-pair 2 3))
-(exp 2 2)
+(define (cons a b) (* (exp 2 a) (* (exp 3 b))))
+
+;; iterative process
+;; (define (car items)
+;;   (define (iter counter items)
+;;     (if (= (remainder items 2) 0)
+;;         (iter (+ counter 1) (/ items 2))
+;;         counter))
+  
+;;   (iter 0 items))
+
+;; recursive process
+
+(define (car items)
+  (if (not (= (remainder items 2) 0))
+      0
+      (+ 1 (car (/ items 2)))))
+
+(car (cons 4 0))
+
