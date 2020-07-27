@@ -1,6 +1,7 @@
 #lang sicp
 
-(define (make-interval lower-bound upper-bound))
+(define (make-interval lower-bound upper-bound)
+  (cons lower-bound upper-bound))
 
 (define (make-center-percent c p)
   (make-interval (- c (* c p)) (+ c (* c p))))
